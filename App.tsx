@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect, useCallback } from 'react';
-import { Play, Music, Heart, ChevronRight, Volume2 } from 'lucide-react';
+import { Play, Music, Heart, ChevronRight, ChevronLeft, Volume2 } from 'lucide-react';
 import { SLIDES, YOUTUBE_VIDEO_ID } from './constants';
 import { SlideType } from './types';
 import ProgressBar from './components/ProgressBar';
@@ -58,16 +58,34 @@ const App: React.FC = () => {
     };
   }, []);
 
-  const handleInteraction = useCallback(() => {
-    // Only advance if not the last slide
-    if (currentIndex < SLIDES.length - 1) {
-      setCurrentIndex((prev) => prev + 1);
-    }
-
-    // Attempt to play YouTube video on first interaction if not playing
+  const handleInteraction = useCallback((e: React.MouseEvent) => {
+    // Audio Logic: Attempt to play YouTube video on first interaction if not playing
     if (!isPlaying && playerRef.current && playerRef.current.playVideo) {
       playerRef.current.playVideo();
       setIsPlaying(true);
+    }
+
+    // Navigation Logic
+    const { clientX } = e;
+    const { innerWidth } = window;
+    
+    // If on INTRO (index 0), any click advances (avoids confusion on start button)
+    if (currentIndex === 0) {
+      setCurrentIndex(1);
+      return;
+    }
+
+    // Right side click -> Next
+    if (clientX > innerWidth / 2) {
+      if (currentIndex < SLIDES.length - 1) {
+        setCurrentIndex((prev) => prev + 1);
+      }
+    } 
+    // Left side click -> Previous
+    else {
+      if (currentIndex > 0) {
+        setCurrentIndex((prev) => prev - 1);
+      }
     }
   }, [currentIndex, isPlaying]);
 
@@ -96,7 +114,7 @@ const App: React.FC = () => {
             {/* Sürpriz olması için başlık ve metin kaldırıldı, sadece buton kaldı */}
             
             <div className="animate-bounce">
-              <button className="bg-white/80 backdrop-blur-sm px-10 py-4 rounded-full shadow-xl text-romantic-text font-serif tracking-widest uppercase text-sm flex items-center gap-3 transform hover:scale-105 transition-transform duration-300">
+              <button className="bg-white/80 backdrop-blur-sm px-10 py-4 rounded-full shadow-xl text-romantic-text font-serif tracking-widest uppercase text-sm flex items-center gap-3 transform hover:scale-105 transition-transform duration-300 pointer-events-none">
                 <Play size={18} className="fill-current" />
                 Başlamak İçin Dokun
               </button>
@@ -191,7 +209,7 @@ const App: React.FC = () => {
 
             <button 
               onClick={restart}
-              className="mt-20 text-xs font-sans uppercase tracking-widest text-romantic-secondary/50 hover:text-romantic-secondary transition-colors z-50 p-4"
+              className="mt-20 text-xs font-sans uppercase tracking-widest text-romantic-secondary/50 hover:text-romantic-secondary transition-colors z-50 p-4 cursor-pointer"
             >
               Başa Dön ↺
             </button>
@@ -224,11 +242,16 @@ const App: React.FC = () => {
       </main>
 
       {/* Footer Hint */}
-      {currentIndex < SLIDES.length - 1 && (
-        <div className="absolute bottom-6 w-full text-center z-20 animate-pulse">
-           <p className="font-sans text-xs uppercase tracking-[0.2em] text-romantic-text/40 flex items-center justify-center gap-2">
-             Devam etmek için dokun <ChevronRight size={12} />
-           </p>
+      {currentIndex > 0 && currentIndex < SLIDES.length - 1 && (
+        <div className="absolute bottom-6 w-full text-center z-20 animate-pulse pointer-events-none">
+           <div className="flex items-center justify-between px-8 text-romantic-text/40">
+             <div className="flex items-center gap-1 font-sans text-xs uppercase tracking-widest">
+               <ChevronLeft size={12} /> Geri
+             </div>
+             <div className="flex items-center gap-1 font-sans text-xs uppercase tracking-widest">
+               İleri <ChevronRight size={12} />
+             </div>
+           </div>
         </div>
       )}
     </div>

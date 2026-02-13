@@ -7,7 +7,7 @@ interface ProgressBarProps {
 
 const ProgressBar: React.FC<ProgressBarProps> = ({ total, current }) => {
   return (
-    <div className="absolute top-0 left-0 w-full z-50 p-2 flex gap-1">
+    <div className="absolute top-0 left-0 w-full z-50 p-2 flex gap-0.5">
       {Array.from({ length: total }).map((_, index) => (
         <div 
           key={index} 
