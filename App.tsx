@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect, useCallback } from 'react';
-import { Play, Music, Heart, ChevronRight } from 'lucide-react';
+import { Play, Music, Heart, ChevronRight, Volume2 } from 'lucide-react';
 import { SLIDES, YOUTUBE_VIDEO_ID } from './constants';
 import { SlideType } from './types';
 import ProgressBar from './components/ProgressBar';
@@ -83,12 +83,21 @@ const App: React.FC = () => {
     switch (currentSlide.type) {
       case SlideType.INTRO:
         return (
-          <div className="flex flex-col items-center justify-center h-full text-center px-6 animate-fade-in">
-            <h1 className="font-script text-7xl mb-4 text-romantic-text">{currentSlide.title}</h1>
-            <p className="font-serif text-xl italic text-romantic-secondary mb-12">{currentSlide.text}</p>
-            <div className="animate-bounce mt-8">
-              <button className="bg-white/80 backdrop-blur-sm px-8 py-3 rounded-full shadow-lg text-romantic-text font-serif tracking-widest uppercase text-sm flex items-center gap-2">
-                <Play size={16} className="fill-current" />
+          <div className="flex flex-col items-center justify-center h-full text-center px-6 animate-fade-in relative">
+            
+            {/* Sesi Açın Uyarısı */}
+            <div className="absolute top-[20%] animate-pulse-slow">
+              <div className="flex items-center gap-2 bg-white/40 backdrop-blur-sm px-4 py-2 rounded-full border border-white/60 shadow-sm">
+                <Volume2 size={16} className="text-romantic-text" />
+                <span className="text-xs font-sans tracking-widest uppercase text-romantic-text font-semibold">Sesi Açın</span>
+              </div>
+            </div>
+
+            {/* Sürpriz olması için başlık ve metin kaldırıldı, sadece buton kaldı */}
+            
+            <div className="animate-bounce">
+              <button className="bg-white/80 backdrop-blur-sm px-10 py-4 rounded-full shadow-xl text-romantic-text font-serif tracking-widest uppercase text-sm flex items-center gap-3 transform hover:scale-105 transition-transform duration-300">
+                <Play size={18} className="fill-current" />
                 Başlamak İçin Dokun
               </button>
             </div>
