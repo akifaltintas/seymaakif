@@ -382,7 +382,8 @@ export const SLIDES: SlideContent[] = [
     image: IMAGES.oct18,
     watermark: "Anı",
     imageRotate: "-rotate-2",
-    aspectRatio: "aspect-auto"
+    aspectRatio: "aspect-auto",
+    containerClass: "w-64"
   },
   // 36. HEYECAN (ID -> 38)
   {

@@ -273,7 +273,7 @@ const App: React.FC = () => {
 
       case SlideType.MEMORY:
         return (
-          <div className={`flex flex-col items-center justify-center h-full px-6 animate-fade-in ${currentSlide.textAlign === 'text-left' ? 'items-start' : ''}`}>
+          <div className={`flex flex-col items-center justify-center h-full px-6 pb-20 animate-fade-in ${currentSlide.textAlign === 'text-left' ? 'items-start' : ''}`}>
             {/* First Image - Now supports containerClass for resizing */}
             <div className={`relative p-3 bg-white shadow-2xl mb-4 ${currentSlide.containerClass || 'w-full max-w-sm'} ${currentSlide.imageRotate || 'rotate-2'}`}>
               <div className={`${currentSlide.aspectRatio === 'aspect-auto' ? '' : (currentSlide.aspectRatio || 'aspect-[3/4]')} ${currentSlide.aspectRatio === 'aspect-auto' ? '' : 'overflow-hidden'} bg-gray-200`}>
