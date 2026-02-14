@@ -39,6 +39,15 @@ const OCT28_2 = "https://lh3.googleusercontent.com/d/1oSIveoGA7ZYFsSy7WCYujpXEc9
 const DEC05_1 = "https://lh3.googleusercontent.com/d/1Ba2bwhEgvYWvAYGZPzLLw0QiP7JbBbmI";
 const DEC05_2 = "https://lh3.googleusercontent.com/d/1y9Xh5MN6XM1mhVlZ6P_mi1YEDqyKlQT2";
 
+// Detaylar Kolajı
+const DETAILS_1 = "https://lh3.googleusercontent.com/d/1t8dIcctuqk4hrorzZ4DqWT6BkTVh0KzA";
+const DETAILS_2 = "https://lh3.googleusercontent.com/d/1typ5LUdOEy_DIgUYrpDKZp0Ftj25vVQH";
+const DETAILS_3 = "https://lh3.googleusercontent.com/d/1UoI5w4LIIeaG-_2xFucxnQ0wgVKwJYCx";
+const DETAILS_4 = "https://lh3.googleusercontent.com/d/1oDo91ZEXamSoBIFeez7L4p3q5bD-dINw";
+const DETAILS_5 = "https://lh3.googleusercontent.com/d/1NuZC5pgmzK2uBrQgs1_582ymTQICJVVZ";
+const DETAILS_6 = "https://lh3.googleusercontent.com/d/1ZuTwgdc0xaB-Ag9i4VsQi3TVAGF_bEjG";
+
+
 // 20 Eylül Photo
 const SEPT20_URL = "https://lh3.googleusercontent.com/d/1YtY9EkEc0qLgHSZqb3XHX7qo7b22WJwS";
 
@@ -77,6 +86,7 @@ export const IMAGES = {
   collage: [COLLAGE_1, COLLAGE_2, COLLAGE_3, COLLAGE_4],
   oct28: [OCT28_1, OCT28_2],
   dec05: [DEC05_1, DEC05_2],
+  details: [DETAILS_1, DETAILS_2, DETAILS_4, DETAILS_5], // 4 adet seçildi, ekrana sığması için
   sept20: SEPT20_URL,
   oct18: OCT18_URL,
   july27: JULY27_URL,

@@ -60,6 +60,28 @@ const App: React.FC = () => {
     };
   }, []);
 
+  // Handle slide changes for audio
+  useEffect(() => {
+    if (currentIndex === 0) return; // Intro handled separately
+    
+    const currentSlide = SLIDES[currentIndex];
+    
+    if (currentSlide.type === SlideType.VIDEO) {
+        // Pause background audio when on VIDEO slide
+        if (playerRef.current && playerRef.current.pauseVideo) {
+            playerRef.current.pauseVideo();
+            setIsPlaying(false);
+        }
+    } else {
+        // Resume background audio if we are NOT on video slide and NOT playing
+        // This handles navigating away from the video slide
+        if (!isPlaying && playerRef.current && playerRef.current.playVideo) {
+            playerRef.current.playVideo();
+            setIsPlaying(true);
+        }
+    }
+  }, [currentIndex]);
+
   const handleStart = (e: React.MouseEvent) => {
     e.stopPropagation(); // Prevent main click handler
     
@@ -89,7 +111,8 @@ const App: React.FC = () => {
     }
 
     // Audio Logic: Attempt to play YouTube video on first interaction if not playing
-    if (!isPlaying && playerRef.current && playerRef.current.playVideo) {
+    // EXCEPTION: Do not start background music if on VIDEO slide
+    if (SLIDES[currentIndex].type !== SlideType.VIDEO && !isPlaying && playerRef.current && playerRef.current.playVideo) {
       playerRef.current.playVideo();
       setIsPlaying(true);
     }
@@ -242,8 +265,8 @@ const App: React.FC = () => {
       case SlideType.MEMORY:
         return (
           <div className={`flex flex-col items-center justify-center h-full px-6 animate-fade-in ${currentSlide.textAlign === 'text-left' ? 'items-start' : ''}`}>
-            {/* First Image */}
-            <div className={`relative p-3 bg-white shadow-2xl mb-4 w-full max-w-sm ${currentSlide.imageRotate || 'rotate-2'}`}>
+            {/* First Image - Now supports containerClass for resizing */}
+            <div className={`relative p-3 bg-white shadow-2xl mb-4 ${currentSlide.containerClass || 'w-full max-w-sm'} ${currentSlide.imageRotate || 'rotate-2'}`}>
               <div className={`${currentSlide.aspectRatio === 'aspect-auto' ? '' : (currentSlide.aspectRatio || 'aspect-[3/4]')} ${currentSlide.aspectRatio === 'aspect-auto' ? '' : 'overflow-hidden'} bg-gray-200`}>
                 <img 
                   src={currentSlide.image} 
@@ -368,6 +391,25 @@ const App: React.FC = () => {
                 </li>
               ))}
             </ul>
+          </div>
+        );
+
+      case SlideType.VIDEO:
+        return (
+          <div className="flex flex-col items-center justify-center h-full w-full animate-fade-in relative z-50 p-4">
+             <h2 className="font-serif text-2xl mb-6 text-romantic-text text-center">{currentSlide.title}</h2>
+             <div className="w-full h-full max-w-sm max-h-[80vh] rounded-2xl overflow-hidden shadow-2xl border-4 border-white/50">
+               <iframe 
+                  width="100%" 
+                  height="100%" 
+                  src={`https://www.youtube.com/embed/${currentSlide.videoId}?autoplay=1&rel=0&loop=1&playlist=${currentSlide.videoId}`} 
+                  title="YouTube video player" 
+                  frameBorder="0" 
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                  allowFullScreen
+                  className="w-full h-full"
+               ></iframe>
+             </div>
           </div>
         );
 

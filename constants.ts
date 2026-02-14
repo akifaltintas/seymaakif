@@ -95,12 +95,12 @@ export const SLIDES: SlideContent[] = [
     image: IMAGES.memory, 
     watermark: "O Gün"
   },
-  // 7. DEVRE ARASI
+  // 7. DEVRE ARASI - GÜNCELLENDİ
   {
     id: 7,
     type: SlideType.MESSAGE,
     title: "Ve biraz devre arası",
-    text: "Bazen araya ayrılıklar girse de birbirini seven iki kalp ne olursa olsun buluşurmuş."
+    text: "Bazen araya ayrılıklar girse de, varsa nasipte kavuşmak, hiçbir zorluk engel olmazmış..."
   },
   // 8. İKİNCİ DEVRE FOTOĞRAF
   {
@@ -244,16 +244,25 @@ export const SLIDES: SlideContent[] = [
     title: "İyi ki...",
     text: "Hayatıma girdiğin gün, takvimdeki en güzel gündü."
   },
-  // 24. HAYALLER - GİRİŞ
+  // 24. DETAYLAR KOLAJI
   {
     id: 24,
+    type: SlideType.COLLAGE,
+    title: "", 
+    text: "Seni senin bile bilmediğin detaylarınla seviyorum...\nHer mimiğini ve her halini seviyorum...",
+    collageImages: IMAGES.details,
+    collageLayout: 'grid'
+  },
+  // 25. HAYALLER - GİRİŞ (ESKİ 24)
+  {
+    id: 25,
     type: SlideType.MESSAGE,
     title: "Geleceğimiz",
     text: "Gözlerimi kapattığımda kurduğum her hayalde ve her duamın başlangıcında sen varsın."
   },
-  // 25. HAYALLER LİSTESİ
+  // 26. HAYALLER LİSTESİ (ESKİ 25)
   {
-    id: 25,
+    id: 26,
     type: SlideType.DREAMS,
     title: "Hayallerimiz",
     extra: [
@@ -263,26 +272,26 @@ export const SLIDES: SlideContent[] = [
       "Dünyada ve ahirette seninle beraber mutlu olmak"
     ]
   },
-  // 26. FOTOĞRAF - GÖZLER
+  // 27. FOTOĞRAF - GÖZLER (ESKİ 26)
   {
-    id: 26,
+    id: 27,
     type: SlideType.MEMORY,
     title: "Gözlerin",
     text: "Gece parıldayan yıldızlar ışığını senin gözlerinden mi alıyor?",
     image: IMAGES.eyes,
     imageRotate: "-rotate-1",
-    aspectRatio: "aspect-auto" // Added to make full image visible
+    aspectRatio: "aspect-auto" 
   },
-  // 27. ZORLUKLAR
+  // 28. ZORLUKLAR (ESKİ 27)
   {
-    id: 27,
+    id: 28,
     type: SlideType.MESSAGE,
     title: "Her Şeye Rağmen",
     text: "Hayat bazen zor olabilir ama biz birlikte her şeyin üstesinden geliriz."
   },
-  // 28. TARİH - 20 EYLÜL (ESKİ 34)
+  // 29. TARİH - 20 EYLÜL (ESKİ 28)
   {
-    id: 28,
+    id: 29,
     type: SlideType.MEMORY,
     title: "20 Eylül 2025",
     text: " ",
@@ -291,16 +300,16 @@ export const SLIDES: SlideContent[] = [
     imageRotate: "rotate-0",
     aspectRatio: "aspect-auto"
   },
-  // 29. DESTEK
-  {
-    id: 29,
-    type: SlideType.MESSAGE,
-    title: "Gücüm",
-    text: "Düştüğümde beni kaldıran elin, en büyük dayanağım."
-  },
-  // 30. TEKLİF (BURAYA TAŞINDI)
+  // 30. DESTEK - GÜNCELLENDİ (ESKİ 29)
   {
     id: 30,
+    type: SlideType.MESSAGE,
+    title: "Sözüm",
+    text: "Parmağımda yüzüğüm, yüzüğümde ismin, kalbimde sevgin... Hiç bitmesin..."
+  },
+  // 31. TEKLİF (ESKİ 30)
+  {
+    id: 31,
     type: SlideType.MEMORY,
     title: "Ve o gün",
     text: "Seninle evlenebilir miyim?",
@@ -308,32 +317,32 @@ export const SLIDES: SlideContent[] = [
     watermark: "Teklif",
     imageRotate: "rotate-3"
   },
-  // 31. TARİH - 5 EKİM (ESKİ 23)
+  // 32. TARİH - 5 EKİM (ESKİ 31)
   {
-    id: 31,
+    id: 32,
     type: SlideType.COLLAGE,
     title: "", 
     text: "En mutlu günümüz\n5 Ekim 2025",
     collageImages: IMAGES.collage,
     collageLayout: 'grid'
   },
-  // 32. SÖZLER 1
+  // 33. SÖZLER 1 (ESKİ 32)
   {
-    id: 32,
+    id: 33,
     type: SlideType.MESSAGE,
     title: "Söz Veriyorum",
     text: "Seni her gün, dünden daha çok seveceğime söz veriyorum."
   },
-  // 33. SÖZLER 2
+  // 34. SÖZLER 2 (ESKİ 33)
   {
-    id: 33,
+    id: 34,
     type: SlideType.MESSAGE,
     title: "Daima",
     text: "Saçlarına aklar düşse de, yüzün kırışsa da benim için hep en güzeli sen olacaksın."
   },
-  // 34. TARİH - 18 EKİM (ESKİ 39)
+  // 35. TARİH - 18 EKİM (ESKİ 34)
   {
-    id: 34,
+    id: 35,
     type: SlideType.MEMORY,
     title: "18 Ekim 2025",
     text: " ",
@@ -342,57 +351,57 @@ export const SLIDES: SlideContent[] = [
     imageRotate: "-rotate-2",
     aspectRatio: "aspect-auto"
   },
-  // 35. HEYECAN
+  // 36. HEYECAN (ESKİ 35)
   {
-    id: 35,
+    id: 36,
     type: SlideType.MESSAGE,
     title: "Heyecan",
     text: "Seninle 'Evet' diyeceğimiz günü iple çekiyorum."
   },
-  // 36. AİLE
+  // 37. AİLE (ESKİ 36)
   {
-    id: 36,
+    id: 37,
     type: SlideType.MESSAGE,
     title: "Yuvamız",
     text: "Sen benim evimsin. Nereye gidersek gidelim, kalbin benim yuvam."
   },
-  // 37. SONSUZLUK
+  // 38. SONSUZLUK (ESKİ 37)
   {
-    id: 37,
+    id: 38,
     type: SlideType.MESSAGE,
     title: "Sonsuzluk",
     text: "Sana denk geldim iyileştim, sebepsiz yere gülümsemelerim arttı. Meğer insanın yarası, doğru insanın varlığıyla kapanırmış..."
   },
-  // 38. TEŞEKKÜR
+  // 39. TEŞEKKÜR (ESKİ 38)
   {
-    id: 38,
+    id: 39,
     type: SlideType.MESSAGE,
     title: "Teşekkür Ederim",
     text: "Beni dünyanın en şanslı insanı yaptığın için teşekkür ederim sevgilim."
   },
-  // 39. TARİH - 28 EKİM (ESKİ 29)
+  // 40. TARİH - 28 EKİM (ESKİ 39)
   {
-    id: 39,
+    id: 40,
     type: SlideType.COLLAGE,
     title: "28 Ekim 2025",
     text: "Birlikte nice anılara...",
     collageImages: IMAGES.oct28,
     collageLayout: 'row'
   },
-  // 40. TARİH - 5 ARALIK (ESKİ 31)
+  // 41. TARİH - 5 ARALIK (ESKİ 40)
   {
-    id: 40,
+    id: 41,
     type: SlideType.COLLAGE,
     title: "5 Aralık 2025",
     text: "",
     collageImages: IMAGES.dec05,
     collageLayout: 'col'
   },
-  // 41. ŞİİR (KARAKOÇ) - YENİ
+  // 42. ŞİİR (KARAKOÇ) - BAŞLIK KALDIRILDI (ESKİ 41)
   {
-    id: 41,
+    id: 42,
     type: SlideType.MEMORY,
-    title: "Sevda Köprüsü",
+    title: "", // Başlık kaldırıldı
     text: "Sırat’tan incedir sevda köprüsü\nBeraber geçelim tut ellerimden.\nNiyet ak güvercin, vuslat gökyüzü\nBeraber uçalım tut ellerimden.",
     image: IMAGES.poemKarakoc,
     aspectRatio: "aspect-video",
@@ -400,9 +409,9 @@ export const SLIDES: SlideContent[] = [
     textAlign: "text-left",
     author: "Abdurrahim Karakoç"
   },
-  // 42. TARİH - 25 OCAK 2026 - YENİ
+  // 43. TARİH - 25 OCAK 2026 (ESKİ 42)
   {
-    id: 42,
+    id: 43,
     type: SlideType.MEMORY,
     title: "25 Ocak 2026",
     text: " ",
@@ -411,16 +420,16 @@ export const SLIDES: SlideContent[] = [
     imageRotate: "-rotate-1",
     aspectRatio: "aspect-auto"
   },
-  // 43. YAZI (GÜLÜŞÜNÜ SEVİYORUM) - YENİ
+  // 44. YAZI (GÜLÜŞÜNÜ SEVİYORUM) (ESKİ 43)
   {
-    id: 43,
+    id: 44,
     type: SlideType.MESSAGE,
     title: "Seviyorum",
     text: "Gülüşünü seviyorum,\nSesini seviyorum,\nSohbetini seviyorum.\nSeni sevebilmek için\ndokunmam şart değil\nki, yüreğimde duruşunu\nseviyorum..."
   },
-  // 44. ŞİİR (TARIK TUFAN) - YENİ
+  // 45. ŞİİR (TARIK TUFAN) (ESKİ 44)
   {
-    id: 44,
+    id: 45,
     type: SlideType.MEMORY,
     title: "Şifalı Gözlerin",
     text: "...ama geçecek hepsi, geçecek.\nşifalı gözlerin her şeyi iyi edecek.\ngözlerimin içine bakmaktan korkma anna.\nsen adımını attığın andan itibaren\nhira dinginliğine dönüşecek ortalık.",
@@ -430,9 +439,9 @@ export const SLIDES: SlideContent[] = [
     textAlign: "text-left",
     author: "Tarık Tufan"
   },
-  // 45. TARİH - 5 ŞUBAT 2026 - YENİ
+  // 46. TARİH - 5 ŞUBAT 2026 (ESKİ 45)
   {
-    id: 45,
+    id: 46,
     type: SlideType.MEMORY,
     title: "5 Şubat 2026",
     text: " ",
@@ -441,36 +450,58 @@ export const SLIDES: SlideContent[] = [
     imageRotate: "rotate-1",
     aspectRatio: "aspect-auto"
   },
-  // 46. TORUN - YENİ
+  // 47. TORUN (ESKİ 46)
   {
-    id: 46,
+    id: 47,
     type: SlideType.MEMORY,
     title: "Hayalim",
     text: "Yıllar geçsin, saçlarımıza ak düşsün, kucağındaki bebek torunumuz olsun istiyorum :)",
     image: IMAGES.grandchild,
     watermark: "Gelecek",
     imageRotate: "-rotate-1",
-    aspectRatio: "aspect-auto"
+    aspectRatio: "aspect-auto",
+    containerClass: "w-64"
   },
-  // 47. HEDİYE NOTU (ESKİ 45)
+  // 48. SABIR (YENİ EKLENDİ)
   {
-    id: 47,
+    id: 48,
+    type: SlideType.MESSAGE,
+    title: "Sabır",
+    text: "Azcık daha sabredelim bitanem."
+  },
+  // 49. SAYAÇ / MESAJ (ESKİ 48)
+  {
+    id: 49,
+    type: SlideType.MESSAGE,
+    title: "Vuslat",
+    text: "Sadece 69 gün kaldı, (inşAllah) bir ömür boyu mutlu olmaya..."
+  },
+  // 50. HEDİYE NOTU (ESKİ 49)
+  {
+    id: 50,
     type: SlideType.MESSAGE,
     title: "Küçük Bir Not",
     text: "Bu site belki basit kodlardan ibaret ama her satırında seni düşündüm."
   },
-  // 48. FİNAL ÖNCESİ (ESKİ 46)
+  // 51. FİNAL ÖNCESİ (ESKİ 50)
   {
-    id: 48,
+    id: 51,
     type: SlideType.MESSAGE,
     title: "Ve Şimdi...",
     text: "Sana söylemek istediğim tek bir şey kaldı..."
   },
-  // 49. FİNAL (ESKİ 47)
+  // 52. FİNAL (ESKİ 51)
   {
-    id: 49,
+    id: 52,
     type: SlideType.FINAL,
     title: "Seni Çok Seviyorum",
     text: "Sevgililer Günümüz Kutlu Olsun Canım Sevgilim ❤️"
+  },
+  // 53. VİDEO (YENİ EKLENDİ)
+  {
+    id: 53,
+    type: SlideType.VIDEO,
+    title: "Özel An",
+    videoId: "D0itZVz82Ew"
   }
 ];
