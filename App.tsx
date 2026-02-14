@@ -178,7 +178,7 @@ const App: React.FC = () => {
         return (
           <div className="flex flex-col h-full items-center justify-start pt-16 px-4 animate-fade-in relative z-20">
             {/* Phone/Chat Container - Floating Card */}
-            <div className="w-full max-w-[320px] h-[60vh] bg-[#E5DDD5] rounded-2xl shadow-2xl overflow-hidden flex flex-col relative border border-gray-300 ring-4 ring-black/5 mx-auto">
+            <div className="w-full max-w-[320px] h-[68vh] bg-[#E5DDD5] rounded-2xl shadow-2xl overflow-hidden flex flex-col relative border border-gray-300 ring-4 ring-black/5 mx-auto">
               
               {/* WhatsApp Header */}
               <div className="bg-[#075E54] text-white p-2 px-3 flex items-center shadow-md z-10 shrink-0">
@@ -230,7 +230,7 @@ const App: React.FC = () => {
 
             {/* Footer Text - Outside and Distinct */}
             {currentSlide.footerText && (
-              <div className="mt-8 text-center max-w-xs animate-fade-in" style={{ animationDelay: '0.5s' }}>
+              <div className="mt-10 text-center max-w-xs animate-fade-in" style={{ animationDelay: '0.5s' }}>
                   <p className="font-serif text-2xl text-romantic-text italic font-medium leading-relaxed drop-shadow-sm">
                     "{currentSlide.footerText}"
                   </p>
@@ -241,9 +241,10 @@ const App: React.FC = () => {
 
       case SlideType.MEMORY:
         return (
-          <div className="flex flex-col items-center justify-center h-full px-6 animate-fade-in">
-            <div className={`relative p-3 bg-white shadow-2xl mb-8 w-full max-w-sm ${currentSlide.imageRotate || 'rotate-2'}`}>
-              <div className="aspect-[3/4] overflow-hidden bg-gray-200">
+          <div className={`flex flex-col items-center justify-center h-full px-6 animate-fade-in ${currentSlide.textAlign === 'text-left' ? 'items-start' : ''}`}>
+            {/* First Image */}
+            <div className={`relative p-3 bg-white shadow-2xl mb-4 w-full max-w-sm ${currentSlide.imageRotate || 'rotate-2'}`}>
+              <div className={`${currentSlide.aspectRatio || 'aspect-[3/4]'} overflow-hidden bg-gray-200`}>
                 <img 
                   src={currentSlide.image} 
                   alt={currentSlide.title} 
@@ -254,10 +255,47 @@ const App: React.FC = () => {
                 {currentSlide.watermark || 'Anılar'}
               </div>
             </div>
-            <h2 className="font-serif text-3xl mb-4 text-romantic-text">{currentSlide.title}</h2>
-            <p className="font-sans text-lg text-center leading-relaxed text-romantic-text/80 whitespace-pre-line">
-              {currentSlide.text}
-            </p>
+
+            {/* Second Image (if exists) */}
+            {currentSlide.secondImage && (
+              <div className={`relative p-3 bg-white shadow-2xl mb-8 w-full max-w-sm ${currentSlide.imageRotate ? '-'+currentSlide.imageRotate : '-rotate-2'}`}>
+                <div className={`${currentSlide.aspectRatio || 'aspect-[3/4]'} overflow-hidden bg-gray-200`}>
+                  <img 
+                    src={currentSlide.secondImage} 
+                    alt={currentSlide.title} 
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+              </div>
+            )}
+
+            <div className={`w-full max-w-sm ${currentSlide.textAlign || 'text-center'}`}>
+              <h2 className="font-serif text-3xl mb-4 text-romantic-text">{currentSlide.title}</h2>
+              <p className="font-sans text-lg leading-relaxed text-romantic-text/80 whitespace-pre-line">
+                {currentSlide.text}
+              </p>
+              {currentSlide.author && (
+                <p className="mt-2 text-sm text-romantic-secondary italic text-right font-serif">
+                  — {currentSlide.author}
+                </p>
+              )}
+            </div>
+          </div>
+        );
+
+      case SlideType.COLLAGE:
+        return (
+          <div className="flex flex-col items-center justify-center h-full px-6 animate-fade-in">
+             <div className="grid grid-cols-2 gap-3 w-full max-w-md bg-white p-3 shadow-xl transform rotate-1">
+                {currentSlide.collageImages?.map((img, idx) => (
+                  <div key={idx} className="aspect-square overflow-hidden bg-gray-100 rounded-sm">
+                    <img src={img} alt={`Collage ${idx}`} className="w-full h-full object-cover hover:scale-110 transition-transform duration-500" />
+                  </div>
+                ))}
+             </div>
+             <div className="mt-12 text-center">
+                <h2 className="font-script text-4xl text-romantic-text mb-2">{currentSlide.text}</h2>
+             </div>
           </div>
         );
 
