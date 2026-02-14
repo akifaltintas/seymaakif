@@ -123,6 +123,12 @@ const App: React.FC = () => {
 
     // Right side click -> Next
     if (clientX > innerWidth / 2) {
+      // If on FINAL slide, disable click-to-next on background. 
+      // User must click the heart specifically.
+      if (SLIDES[currentIndex].type === SlideType.FINAL) {
+        return;
+      }
+
       if (currentIndex < SLIDES.length - 1) {
         setCurrentIndex((prev) => prev + 1);
       }
@@ -421,8 +427,17 @@ const App: React.FC = () => {
             <h1 className="font-script text-6xl mb-6 text-romantic-text">{currentSlide.title}</h1>
             <p className="font-serif text-xl text-romantic-secondary mb-12">{currentSlide.text}</p>
             
-            <div className="relative">
-              <Heart size={120} className="text-romantic-accent fill-current animate-pulse" />
+            <div 
+              className="relative cursor-pointer group"
+              onClick={(e) => {
+                e.stopPropagation();
+                setCurrentIndex(prev => prev + 1);
+              }}
+            >
+              <Heart size={150} className="text-romantic-accent fill-current animate-pulse group-hover:scale-110 transition-transform duration-300" />
+              <span className="absolute inset-0 flex items-center justify-center text-white font-bold font-sans text-sm tracking-wider animate-bounce">
+                Buraya Bas
+              </span>
             </div>
 
             <button 
@@ -476,7 +491,7 @@ const App: React.FC = () => {
             </div>
 
             {/* Right Hint (Next) */}
-            <div className={`w-24 flex justify-end transition-opacity duration-300 ${currentIndex < SLIDES.length - 1 ? 'opacity-100 animate-pulse' : 'opacity-0'}`}>
+            <div className={`w-24 flex justify-end transition-opacity duration-300 ${currentIndex < SLIDES.length - 1 && SLIDES[currentIndex].type !== SlideType.FINAL ? 'opacity-100 animate-pulse' : 'opacity-0'}`}>
                <div className="flex items-center gap-1 font-sans text-[10px] uppercase tracking-widest">
                  İleri <ChevronRight size={10} />
                </div>
