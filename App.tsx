@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect, useCallback } from 'react';
-import { Play, Music, Heart, ChevronRight, ChevronLeft, Volume2 } from 'lucide-react';
+import { Play, Music, Heart, ChevronRight, ChevronLeft, Volume2, Lock } from 'lucide-react';
 import { SLIDES, YOUTUBE_VIDEO_ID } from './constants';
 import { SlideType } from './types';
 import ProgressBar from './components/ProgressBar';
@@ -16,6 +16,8 @@ declare global {
 const App: React.FC = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isPlaying, setIsPlaying] = useState(false);
+  const [password, setPassword] = useState('');
+  const [error, setError] = useState(false);
   const playerRef = useRef<any>(null);
 
   // Initialize YouTube API
@@ -58,7 +60,34 @@ const App: React.FC = () => {
     };
   }, []);
 
+  const handleStart = (e: React.MouseEvent) => {
+    e.stopPropagation(); // Prevent main click handler
+    
+    // Normalize input: lowercase and remove spaces
+    const cleanInput = password.toLowerCase().replace(/\s/g, '');
+    
+    if (cleanInput === 'seniseviyorum') {
+      // Correct password
+      if (!isPlaying && playerRef.current && playerRef.current.playVideo) {
+        playerRef.current.playVideo();
+        setIsPlaying(true);
+      }
+      setCurrentIndex(1);
+      setError(false);
+    } else {
+      // Incorrect password
+      setError(true);
+      // Shake animation reset
+      setTimeout(() => setError(false), 500);
+    }
+  };
+
   const handleInteraction = useCallback((e: React.MouseEvent) => {
+    // If on INTRO (index 0), do NOT auto advance. Must use password button.
+    if (currentIndex === 0) {
+      return;
+    }
+
     // Audio Logic: Attempt to play YouTube video on first interaction if not playing
     if (!isPlaying && playerRef.current && playerRef.current.playVideo) {
       playerRef.current.playVideo();
@@ -68,12 +97,6 @@ const App: React.FC = () => {
     // Navigation Logic
     const { clientX } = e;
     const { innerWidth } = window;
-    
-    // If on INTRO (index 0), any click advances (avoids confusion on start button)
-    if (currentIndex === 0) {
-      setCurrentIndex(1);
-      return;
-    }
 
     // Right side click -> Next
     if (clientX > innerWidth / 2) {
@@ -92,6 +115,11 @@ const App: React.FC = () => {
   const restart = (e: React.MouseEvent) => {
     e.stopPropagation();
     setCurrentIndex(0);
+    setPassword('');
+    setIsPlaying(false);
+    if (playerRef.current && playerRef.current.stopVideo) {
+       playerRef.current.stopVideo();
+    }
   };
 
   const currentSlide = SLIDES[currentIndex];
@@ -104,20 +132,44 @@ const App: React.FC = () => {
           <div className="flex flex-col items-center justify-center h-full text-center px-6 animate-fade-in relative">
             
             {/* Sesi Açın Uyarısı */}
-            <div className="absolute top-[20%] animate-pulse-slow">
+            <div className="absolute top-[15%] animate-pulse-slow">
               <div className="flex items-center gap-2 bg-white/40 backdrop-blur-sm px-4 py-2 rounded-full border border-white/60 shadow-sm">
                 <Volume2 size={16} className="text-romantic-text" />
                 <span className="text-xs font-sans tracking-widest uppercase text-romantic-text font-semibold">Sesi Açın</span>
               </div>
             </div>
-
-            {/* Sürpriz olması için başlık ve metin kaldırıldı, sadece buton kaldı */}
             
-            <div className="animate-bounce">
-              <button className="bg-white/80 backdrop-blur-sm px-10 py-4 rounded-full shadow-xl text-romantic-text font-serif tracking-widest uppercase text-sm flex items-center gap-3 transform hover:scale-105 transition-transform duration-300 pointer-events-none">
-                <Play size={18} className="fill-current" />
-                Başlamak İçin Dokun
-              </button>
+            <div className="w-full max-w-xs space-y-6 z-20">
+              {/* Şifre Input */}
+              <div className={`transition-transform duration-100 ${error ? 'translate-x-[-10px] border-red-400' : ''} ${error ? 'animate-[pulse_0.5s_ease-in-out]' : ''}`}>
+                <div className="relative group">
+                  <input
+                    type="text"
+                    value={password}
+                    onChange={(e) => {
+                      setPassword(e.target.value);
+                      setError(false);
+                    }}
+                    onClick={(e) => e.stopPropagation()} // Prevent slide navigation when typing
+                    placeholder="Sihirli sözcüğü giriniz..."
+                    className={`w-full bg-white/60 backdrop-blur-md border-2 ${error ? 'border-red-300 text-red-500' : 'border-white/50 text-romantic-text'} rounded-full px-6 py-4 text-center outline-none focus:border-romantic-primary focus:bg-white/80 transition-all font-serif text-lg placeholder:text-romantic-text/40 shadow-lg`}
+                  />
+                  {!password && (
+                    <Lock size={16} className="absolute right-5 top-1/2 -translate-y-1/2 text-romantic-text/30" />
+                  )}
+                </div>
+              </div>
+
+              {/* Başla Butonu */}
+              <div className="flex justify-center">
+                <button 
+                  onClick={handleStart}
+                  className="bg-romantic-primary text-white px-10 py-4 rounded-full shadow-xl font-serif tracking-widest uppercase text-sm flex items-center gap-3 transform hover:scale-105 active:scale-95 transition-all duration-300 hover:bg-romantic-accent"
+                >
+                  <Play size={18} className="fill-current" />
+                  Başla
+                </button>
+              </div>
             </div>
           </div>
         );
