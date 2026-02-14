@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect, useCallback } from 'react';
-import { Play, Music, Heart, ChevronRight, ChevronLeft, Volume2, Lock } from 'lucide-react';
+import { Play, Music, Heart, ChevronRight, ChevronLeft, Volume2, Lock, ArrowLeft, Phone, Video, MoreVertical } from 'lucide-react';
 import { SLIDES, YOUTUBE_VIDEO_ID } from './constants';
 import { SlideType } from './types';
 import ProgressBar from './components/ProgressBar';
@@ -174,6 +174,71 @@ const App: React.FC = () => {
           </div>
         );
 
+      case SlideType.WHATSAPP:
+        return (
+          <div className="flex flex-col h-full items-center justify-start pt-16 px-4 animate-fade-in relative z-20">
+            {/* Phone/Chat Container - Floating Card */}
+            <div className="w-full max-w-[320px] h-[60vh] bg-[#E5DDD5] rounded-2xl shadow-2xl overflow-hidden flex flex-col relative border border-gray-300 ring-4 ring-black/5 mx-auto">
+              
+              {/* WhatsApp Header */}
+              <div className="bg-[#075E54] text-white p-2 px-3 flex items-center shadow-md z-10 shrink-0">
+                <ArrowLeft size={18} className="mr-1" />
+                <div className="w-8 h-8 bg-gray-300 rounded-full mr-2 flex items-center justify-center text-gray-500 overflow-hidden shrink-0">
+                  <div className="bg-gray-400 w-full h-full flex items-center justify-center text-xs font-bold">A</div>
+                </div>
+                <div className="flex-1 overflow-hidden">
+                  <h3 className="font-semibold text-sm leading-tight truncate">{currentSlide.title}</h3>
+                  <p className="text-[10px] opacity-80 truncate">Çevrimiçi</p>
+                </div>
+                <div className="flex gap-3 ml-2">
+                  <Video size={16} />
+                  <Phone size={16} />
+                  <MoreVertical size={16} />
+                </div>
+              </div>
+
+              {/* Chat Area */}
+              <div className="flex-1 p-3 bg-[#E5DDD5] relative overflow-y-auto scrollbar-hide">
+                  {/* Background pattern */}
+                  <div className="absolute inset-0 opacity-10 bg-[url('https://user-images.githubusercontent.com/15075759/28719144-86dc0f70-73b1-11e7-911d-60d70fcded21.png')] pointer-events-none"></div>
+                  
+                  {/* Date Separator */}
+                  <div className="flex justify-center mb-4 relative z-10">
+                    <span className="bg-[#D4EAF4] text-gray-600 text-[10px] font-medium px-2 py-0.5 rounded-lg shadow-sm">
+                      {currentSlide.date}
+                    </span>
+                  </div>
+
+                  {/* Messages */}
+                  <div className="space-y-2 relative z-10 pb-4">
+                    {currentSlide.messages?.map((msg, idx) => (
+                      <div key={idx} className={`flex ${msg.isSender ? 'justify-end' : 'justify-start'}`}>
+                        <div className={`
+                          max-w-[85%] p-1.5 px-2.5 rounded-lg shadow-sm text-xs relative
+                          ${msg.isSender ? 'bg-[#E2FFC7] rounded-tr-none' : 'bg-white rounded-tl-none'}
+                        `}>
+                          <p className="text-[#303030] leading-snug pb-1 whitespace-pre-wrap">{msg.text}</p>
+                          <div className="text-right">
+                             <span className="text-[9px] text-gray-500">{msg.time}</span>
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+              </div>
+            </div>
+
+            {/* Footer Text - Outside and Distinct */}
+            {currentSlide.footerText && (
+              <div className="mt-8 text-center max-w-xs animate-fade-in" style={{ animationDelay: '0.5s' }}>
+                  <p className="font-serif text-2xl text-romantic-text italic font-medium leading-relaxed drop-shadow-sm">
+                    "{currentSlide.footerText}"
+                  </p>
+              </div>
+            )}
+          </div>
+        );
+
       case SlideType.MEMORY:
         return (
           <div className="flex flex-col items-center justify-center h-full px-6 animate-fade-in">
@@ -293,17 +358,29 @@ const App: React.FC = () => {
         {renderContent()}
       </main>
 
-      {/* Footer Hint */}
-      {currentIndex > 0 && currentIndex < SLIDES.length - 1 && (
-        <div className="absolute bottom-6 w-full text-center z-20 animate-pulse pointer-events-none">
-           <div className="flex items-center justify-between px-8 text-romantic-text/40">
-             <div className="flex items-center gap-1 font-sans text-xs uppercase tracking-widest">
-               <ChevronLeft size={12} /> Geri
-             </div>
-             <div className="flex items-center gap-1 font-sans text-xs uppercase tracking-widest">
-               İleri <ChevronRight size={12} />
-             </div>
-           </div>
+      {/* Footer Navigation Hints & Page Number */}
+      {currentIndex > 0 && (
+        <div className="absolute bottom-6 w-full z-20 pointer-events-none px-8">
+          <div className="flex items-center justify-between text-romantic-text/40">
+            {/* Left Hint (Previous) */}
+            <div className={`w-24 flex justify-start transition-opacity duration-300 ${currentIndex > 1 ? 'opacity-100 animate-pulse' : 'opacity-0'}`}>
+               <div className="flex items-center gap-1 font-sans text-[10px] uppercase tracking-widest">
+                 <ChevronLeft size={10} /> Geri
+               </div>
+            </div>
+
+            {/* Page Number */}
+            <div className="font-serif text-sm font-medium tracking-widest opacity-60">
+              {currentIndex} / {SLIDES.length - 1}
+            </div>
+
+            {/* Right Hint (Next) */}
+            <div className={`w-24 flex justify-end transition-opacity duration-300 ${currentIndex < SLIDES.length - 1 ? 'opacity-100 animate-pulse' : 'opacity-0'}`}>
+               <div className="flex items-center gap-1 font-sans text-[10px] uppercase tracking-widest">
+                 İleri <ChevronRight size={10} />
+               </div>
+            </div>
+          </div>
         </div>
       )}
     </div>

@@ -16,6 +16,7 @@ const HOLDING_HANDS_URL = "https://images.unsplash.com/photo-1621112904887-41937
 const COFFEE_URL = "https://images.unsplash.com/photo-1511920170033-f8396924c348?q=80&w=600&auto=format&fit=crop";
 const NATURE_URL = "https://images.unsplash.com/photo-1469334031218-e382a71b716b?q=80&w=600&auto=format&fit=crop";
 const SMILE_URL = "https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=600&auto=format&fit=crop";
+const EYES_URL = "https://images.unsplash.com/photo-1516575334481-f85287c2c81d?q=80&w=600&auto=format&fit=crop"; // Göz temalı resim
 
 // Dışarıya aktarılan resimler
 export const IMAGES = {
@@ -24,5 +25,6 @@ export const IMAGES = {
   hands: HOLDING_HANDS_URL,
   coffee: COFFEE_URL,
   nature: NATURE_URL,
-  smile: SMILE_URL
+  smile: SMILE_URL,
+  eyes: EYES_URL
 };
