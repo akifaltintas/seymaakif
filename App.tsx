@@ -232,7 +232,7 @@ const App: React.FC = () => {
             {currentSlide.footerText && (
               <div className="mt-10 text-center max-w-xs animate-fade-in" style={{ animationDelay: '0.5s' }}>
                   <p className="font-serif text-2xl text-romantic-text italic font-medium leading-relaxed drop-shadow-sm">
-                    "{currentSlide.footerText}"
+                    {currentSlide.footerText}
                   </p>
               </div>
             )}
@@ -244,11 +244,11 @@ const App: React.FC = () => {
           <div className={`flex flex-col items-center justify-center h-full px-6 animate-fade-in ${currentSlide.textAlign === 'text-left' ? 'items-start' : ''}`}>
             {/* First Image */}
             <div className={`relative p-3 bg-white shadow-2xl mb-4 w-full max-w-sm ${currentSlide.imageRotate || 'rotate-2'}`}>
-              <div className={`${currentSlide.aspectRatio || 'aspect-[3/4]'} overflow-hidden bg-gray-200`}>
+              <div className={`${currentSlide.aspectRatio === 'aspect-auto' ? '' : (currentSlide.aspectRatio || 'aspect-[3/4]')} ${currentSlide.aspectRatio === 'aspect-auto' ? '' : 'overflow-hidden'} bg-gray-200`}>
                 <img 
                   src={currentSlide.image} 
                   alt={currentSlide.title} 
-                  className="w-full h-full object-cover"
+                  className={`w-full ${currentSlide.aspectRatio === 'aspect-auto' ? 'h-auto' : 'h-full object-cover'}`}
                 />
               </div>
               <div className="absolute -bottom-10 right-0 font-script text-4xl text-romantic-secondary/50 opacity-50 z-[-1]">
@@ -284,18 +284,37 @@ const App: React.FC = () => {
         );
 
       case SlideType.COLLAGE:
+        // Determine layout styles
+        let layoutClass = "grid grid-cols-2 gap-3"; // Default Grid
+        if (currentSlide.collageLayout === 'row') {
+           layoutClass = "flex flex-row gap-2 h-64 justify-center items-center";
+        } else if (currentSlide.collageLayout === 'col') {
+           layoutClass = "flex flex-col gap-4 w-full mx-auto";
+        }
+
         return (
           <div className="flex flex-col items-center justify-center h-full px-6 animate-fade-in">
-             <div className="grid grid-cols-2 gap-3 w-full max-w-md bg-white p-3 shadow-xl transform rotate-1">
+             <h2 className="font-serif text-3xl mb-6 text-romantic-text text-center">{currentSlide.title}</h2>
+             
+             <div className={`w-full max-w-md bg-white p-3 shadow-xl transform rotate-1 ${layoutClass}`}>
                 {currentSlide.collageImages?.map((img, idx) => (
-                  <div key={idx} className="aspect-square overflow-hidden bg-gray-100 rounded-sm">
-                    <img src={img} alt={`Collage ${idx}`} className="w-full h-full object-cover hover:scale-110 transition-transform duration-500" />
+                  <div key={idx} className={`bg-gray-100 rounded-sm ${
+                    currentSlide.collageLayout === 'row' ? 'flex-1 h-full overflow-hidden' : 
+                    currentSlide.collageLayout === 'col' ? 'w-full' : // Let image define height for col
+                    'aspect-square overflow-hidden'
+                  }`}>
+                    <img src={img} alt={`Collage ${idx}`} className={`w-full hover:scale-110 transition-transform duration-500 ${
+                      currentSlide.collageLayout === 'col' ? 'h-auto' : 'h-full object-cover'
+                    }`} />
                   </div>
                 ))}
              </div>
-             <div className="mt-12 text-center">
-                <h2 className="font-script text-4xl text-romantic-text mb-2">{currentSlide.text}</h2>
-             </div>
+             
+             {currentSlide.text && (
+              <div className="mt-12 text-center">
+                  <p className="font-script text-3xl text-romantic-text whitespace-pre-line leading-relaxed">{currentSlide.text}</p>
+              </div>
+             )}
           </div>
         );
 

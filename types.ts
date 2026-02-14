@@ -26,4 +26,5 @@ export interface SlideContent {
   footerText?: string; // Text to display at the bottom of the slide
   textAlign?: string; // 'text-left', 'text-center', etc.
   author?: string; // For quotes/poems
+  collageLayout?: 'grid' | 'row' | 'col'; // Layout style for collage
 }

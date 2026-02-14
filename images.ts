@@ -31,7 +31,32 @@ const COLLAGE_2 = "https://lh3.googleusercontent.com/d/1ATZYngfTBwWlxgES0I5R1B-g
 const COLLAGE_3 = "https://lh3.googleusercontent.com/d/1WExOTvMo5NIaDpVqLoMce5DeW4Zk7K_s";
 const COLLAGE_4 = "https://lh3.googleusercontent.com/d/1F4-BcGbdjcy_x7aMeEG66KZYOPn6cVmB";
 
-const EYES_URL = "https://images.unsplash.com/photo-1516575334481-f85287c2c81d?q=80&w=600&auto=format&fit=crop"; // Göz temalı resim
+// 28 Ekim Photos
+const OCT28_1 = "https://lh3.googleusercontent.com/d/1VwRaqCygu6sHPUe6YH8peZVC_CGgTL08";
+const OCT28_2 = "https://lh3.googleusercontent.com/d/1oSIveoGA7ZYFsSy7WCYujpXEc9vJM57m";
+
+// 5 Aralık Photos
+const DEC05_1 = "https://lh3.googleusercontent.com/d/1Ba2bwhEgvYWvAYGZPzLLw0QiP7JbBbmI";
+const DEC05_2 = "https://lh3.googleusercontent.com/d/1y9Xh5MN6XM1mhVlZ6P_mi1YEDqyKlQT2";
+
+// 20 Eylül Photo
+const SEPT20_URL = "https://lh3.googleusercontent.com/d/1YtY9EkEc0qLgHSZqb3XHX7qo7b22WJwS";
+
+// 18 Ekim Photo
+const OCT18_URL = "https://lh3.googleusercontent.com/d/103ss_SdmcMwu14CX06mge42xCeOtG1iG";
+
+// 27 Temmuz Photo
+const JULY27_URL = "https://lh3.googleusercontent.com/d/1BA8nbMT--vUDGlGsrbO5aeDMx9OWMf6J";
+
+// Yeni Eklenen Resimler
+const POEM_KARAKOC_URL = "https://lh3.googleusercontent.com/d/17Kae3AMjXHdXVN_OIe8BJQU_z6585IGA";
+const JAN25_URL = "https://lh3.googleusercontent.com/d/1b3tX3eUSZxzysfl8m57Rm25py4xCDUmu";
+const POEM_TUFAN_URL = "https://lh3.googleusercontent.com/d/1KN3T0FPDxeLZTwBonLplI3wx8QpGgkuL";
+const FEB05_URL = "https://lh3.googleusercontent.com/d/1USBFT36nKXFU-18f6KylkeAYyLdQI0kX";
+const GRANDCHILD_URL = "https://lh3.googleusercontent.com/d/1YZXGPQMKz4Oj0MHCZp_3hkeOA9Nw1UlJ";
+
+
+const EYES_URL = "https://lh3.googleusercontent.com/d/1fClkMfwQOcLS3E3Weh-eUZ4C83razOxK"; // Göz temalı resim - Güncellendi
 
 // Dışarıya aktarılan resimler
 export const IMAGES = {
@@ -49,5 +74,15 @@ export const IMAGES = {
   poem: POEM_URL,
   proposal: PROPOSAL_URL,
   eyes: EYES_URL,
-  collage: [COLLAGE_1, COLLAGE_2, COLLAGE_3, COLLAGE_4]
+  collage: [COLLAGE_1, COLLAGE_2, COLLAGE_3, COLLAGE_4],
+  oct28: [OCT28_1, OCT28_2],
+  dec05: [DEC05_1, DEC05_2],
+  sept20: SEPT20_URL,
+  oct18: OCT18_URL,
+  july27: JULY27_URL,
+  poemKarakoc: POEM_KARAKOC_URL,
+  jan25: JAN25_URL,
+  poemTufan: POEM_TUFAN_URL,
+  feb05: FEB05_URL,
+  grandchild: GRANDCHILD_URL
 };
