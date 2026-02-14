@@ -207,7 +207,8 @@ const App: React.FC = () => {
         return (
           <div className="flex flex-col h-full items-center justify-start pt-16 px-4 animate-fade-in relative z-20">
             {/* Phone/Chat Container - Floating Card */}
-            <div className="w-full max-w-[320px] h-[68vh] bg-[#E5DDD5] rounded-2xl shadow-2xl overflow-hidden flex flex-col relative border border-gray-300 ring-4 ring-black/5 mx-auto">
+            {/* Reduced height on mobile to allow space for footer text and navigation */}
+            <div className="w-full max-w-[320px] h-[55vh] md:h-[68vh] bg-[#E5DDD5] rounded-2xl shadow-2xl overflow-hidden flex flex-col relative border border-gray-300 ring-4 ring-black/5 mx-auto transition-all duration-300">
               
               {/* WhatsApp Header */}
               <div className="bg-[#075E54] text-white p-2 px-3 flex items-center shadow-md z-10 shrink-0">
@@ -261,8 +262,8 @@ const App: React.FC = () => {
 
             {/* Footer Text - Outside and Distinct */}
             {currentSlide.footerText && (
-              <div className="mt-6 text-center max-w-xs animate-fade-in" style={{ animationDelay: '0.5s' }}>
-                  <p className="font-serif text-2xl text-romantic-text italic font-medium leading-relaxed drop-shadow-sm">
+              <div className="mt-4 md:mt-6 text-center max-w-xs animate-fade-in" style={{ animationDelay: '0.5s' }}>
+                  <p className="font-serif text-xl md:text-2xl text-romantic-text italic font-medium leading-relaxed drop-shadow-sm px-2">
                     {currentSlide.footerText}
                   </p>
               </div>
@@ -459,7 +460,7 @@ const App: React.FC = () => {
   return (
     <div 
       onClick={handleInteraction}
-      className="relative w-full h-screen bg-romantic-bg overflow-hidden cursor-pointer select-none"
+      className="relative w-full h-[100dvh] bg-romantic-bg overflow-hidden cursor-pointer select-none"
     >
       {/* Hidden YouTube Player */}
       <div id="youtube-player" className="absolute top-0 left-0 opacity-0 pointer-events-none -z-50 h-0 w-0" />
@@ -478,7 +479,10 @@ const App: React.FC = () => {
 
       {/* Footer Navigation Hints & Page Number */}
       {currentIndex > 0 && (
-        <div className="absolute bottom-6 w-full z-20 pointer-events-none px-8">
+        <div 
+          className="absolute bottom-12 md:bottom-8 w-full z-50 pointer-events-none px-8"
+          style={{ paddingBottom: 'env(safe-area-inset-bottom)' }}
+        >
           <div className="flex items-center justify-between text-romantic-text/40">
             {/* Left Hint (Previous) */}
             <div className={`w-24 flex justify-start transition-opacity duration-300 ${currentIndex > 1 ? 'opacity-100 animate-pulse' : 'opacity-0'}`}>
@@ -493,7 +497,7 @@ const App: React.FC = () => {
             </div>
 
             {/* Right Hint (Next) */}
-            <div className={`w-24 flex justify-end transition-opacity duration-300 ${currentIndex < SLIDES.length - 1 && SLIDES[currentIndex].type !== SlideType.FINAL ? 'opacity-100 animate-pulse' : 'opacity-0'}`}>
+            <div className={`w-24 flex justify-end transition-opacity duration-300 ${currentIndex < SLIDES.length - 1 ? 'opacity-100 animate-pulse' : 'opacity-0'}`}>
                <div className="flex items-center gap-1 font-sans text-[10px] uppercase tracking-widest">
                  İleri <ChevronRight size={10} />
                </div>
