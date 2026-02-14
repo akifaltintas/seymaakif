@@ -501,7 +501,7 @@ export const SLIDES: SlideContent[] = [
   {
     id: 53,
     type: SlideType.VIDEO,
-    title: "Özel An",
-    videoId: "D0itZVz82Ew"
+    title: "",
+    videoId: "2WbLvehJ0Ho"
   }
 ];

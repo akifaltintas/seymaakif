@@ -396,13 +396,15 @@ const App: React.FC = () => {
 
       case SlideType.VIDEO:
         return (
-          <div className="flex flex-col items-center justify-center h-full w-full animate-fade-in relative z-50 p-4">
-             <h2 className="font-serif text-2xl mb-6 text-romantic-text text-center">{currentSlide.title}</h2>
-             <div className="w-full h-full max-w-sm max-h-[80vh] rounded-2xl overflow-hidden shadow-2xl border-4 border-white/50">
+          <div className="flex flex-col items-center justify-center h-full w-full animate-fade-in relative z-50 p-2">
+             {currentSlide.title && (
+               <h2 className="font-serif text-2xl mb-4 text-romantic-text text-center">{currentSlide.title}</h2>
+             )}
+             <div className="w-full h-full rounded-2xl overflow-hidden shadow-2xl border-4 border-white/50">
                <iframe 
                   width="100%" 
                   height="100%" 
-                  src={`https://www.youtube.com/embed/${currentSlide.videoId}?autoplay=1&rel=0&loop=1&playlist=${currentSlide.videoId}`} 
+                  src={`https://www.youtube.com/embed/${currentSlide.videoId}?autoplay=1&rel=0&loop=1&playlist=${currentSlide.videoId}&controls=0&showinfo=0&modestbranding=1&iv_load_policy=3&fs=0`} 
                   title="YouTube video player" 
                   frameBorder="0" 
                   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
