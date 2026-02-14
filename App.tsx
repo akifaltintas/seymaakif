@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect, useCallback } from 'react';
-import { Play, Music, Heart, ChevronRight, ChevronLeft, Volume2, Lock, ArrowLeft, Phone, Video, MoreVertical } from 'lucide-react';
+import { Play, Music, Heart, ChevronRight, ChevronLeft, Volume2, Lock, ArrowLeft, Phone, Video, MoreVertical, ChevronsDown } from 'lucide-react';
 import { SLIDES, YOUTUBE_VIDEO_ID } from './constants';
 import { SlideType } from './types';
 import ProgressBar from './components/ProgressBar';
@@ -256,10 +256,12 @@ const App: React.FC = () => {
                   </div>
               </div>
             </div>
+            
+            <p className="mt-2 text-xs text-romantic-text/60 font-sans italic animate-pulse">(Mesajı aşağı kaydırabilirsin.)</p>
 
             {/* Footer Text - Outside and Distinct */}
             {currentSlide.footerText && (
-              <div className="mt-10 text-center max-w-xs animate-fade-in" style={{ animationDelay: '0.5s' }}>
+              <div className="mt-6 text-center max-w-xs animate-fade-in" style={{ animationDelay: '0.5s' }}>
                   <p className="font-serif text-2xl text-romantic-text italic font-medium leading-relaxed drop-shadow-sm">
                     {currentSlide.footerText}
                   </p>
