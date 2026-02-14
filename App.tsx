@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect, useCallback } from 'react';
-import { Play, Music, Heart, ChevronRight, ChevronLeft, Volume2, Lock, ArrowLeft, Phone, Video, MoreVertical, ChevronsDown } from 'lucide-react';
+import { Play, Music, Heart, ChevronRight, ChevronLeft, Volume2, Lock, ArrowLeft, Phone, Video, MoreVertical, ChevronsDown, VolumeX } from 'lucide-react';
 import { SLIDES, YOUTUBE_VIDEO_ID } from './constants';
 import { SlideType } from './types';
 import ProgressBar from './components/ProgressBar';
@@ -34,11 +34,11 @@ const App: React.FC = () => {
     //    after the API code downloads.
     window.onYouTubeIframeAPIReady = () => {
       playerRef.current = new window.YT.Player('youtube-player', {
-        height: '0',
-        width: '0',
+        height: '1', // iOS requires non-zero dimensions for playback
+        width: '1',  // iOS requires non-zero dimensions for playback
         videoId: YOUTUBE_VIDEO_ID,
         playerVars: {
-          'playsinline': 1,
+          'playsinline': 1, // Crucial for iOS inline playback
           'controls': 0,
           'disablekb': 1,
           'fs': 0,
@@ -90,7 +90,8 @@ const App: React.FC = () => {
     
     if (cleanInput === 'seniseviyorum') {
       // Correct password
-      if (!isPlaying && playerRef.current && playerRef.current.playVideo) {
+      // Important: playVideo must be directly in the event loop for iOS
+      if (playerRef.current && playerRef.current.playVideo) {
         playerRef.current.playVideo();
         setIsPlaying(true);
       }
@@ -409,17 +410,29 @@ const App: React.FC = () => {
              {currentSlide.title && (
                <h2 className="font-serif text-2xl mb-4 text-romantic-text text-center">{currentSlide.title}</h2>
              )}
-             <div className="w-full max-w-sm aspect-[9/16] max-h-[70vh] rounded-2xl overflow-hidden shadow-2xl border-4 border-white/50 bg-black">
+             <div className="w-full max-w-sm aspect-[9/16] max-h-[70vh] rounded-2xl overflow-hidden shadow-2xl border-4 border-white/50 bg-black relative group">
+               {/* 
+                  iOS Fixes:
+                  1. playsinline=1: Prevents fullscreen takeover and redirect logic
+                  2. mute=1: Required for autoplay on mobile without user gesture on THIS iframe
+                  3. controls=1: Allowed user to Unmute/Play if autoplay fails
+               */}
                <iframe 
                   width="100%" 
                   height="100%" 
-                  src={`https://www.youtube.com/embed/${currentSlide.videoId}?autoplay=1&rel=0&loop=1&playlist=${currentSlide.videoId}&controls=0&showinfo=0&modestbranding=1&iv_load_policy=3&fs=0`} 
+                  src={`https://www.youtube.com/embed/${currentSlide.videoId}?autoplay=1&playsinline=1&mute=1&rel=0&loop=1&playlist=${currentSlide.videoId}&controls=1&showinfo=0&modestbranding=1&iv_load_policy=3&fs=0`} 
                   title="YouTube video player" 
                   frameBorder="0" 
                   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
                   allowFullScreen
                   className="w-full h-full object-cover"
                ></iframe>
+             </div>
+             
+             {/* iOS Hint */}
+             <div className="mt-4 flex items-center gap-2 text-romantic-text/60 animate-pulse bg-white/50 px-3 py-1 rounded-full">
+               <VolumeX size={14} />
+               <p className="font-sans text-xs">Otomatik başlamazsa veya ses gelmezse videoya dokunun.</p>
              </div>
           </div>
         );
@@ -462,8 +475,12 @@ const App: React.FC = () => {
       onClick={handleInteraction}
       className="relative w-full h-[100dvh] bg-romantic-bg overflow-hidden cursor-pointer select-none"
     >
-      {/* Hidden YouTube Player */}
-      <div id="youtube-player" className="absolute top-0 left-0 opacity-0 pointer-events-none -z-50 h-0 w-0" />
+      {/* 
+        Hidden YouTube Player (Background Music)
+        iOS Fix: Must be 1x1px (not 0x0) to prevent browser optimizing it away.
+        Opacity set to almost 0 but technically visible to the renderer.
+      */}
+      <div id="youtube-player" className="absolute top-0 left-0 opacity-1 pointer-events-none -z-50 h-[1px] w-[1px]" />
 
       <ProgressBar total={SLIDES.length} current={currentIndex} />
       <FloatingHearts />
