@@ -54,14 +54,15 @@ const App: React.FC = () => {
 
   // Generate static random hearts for Intro to avoid re-render flicker
   const introHearts = useMemo(() => {
-    return Array.from({ length: 30 }).map((_, i) => ({
+    // Reduced from 50 to 20 for cleaner look
+    return Array.from({ length: 20 }).map((_, i) => ({
       id: i,
-      left: Math.random() * 100,
+      left: Math.random() * 100, // Random horizontal position 0-100%
       delay: Math.random() * 20, // Spread start times
-      duration: 10 + Math.random() * 15, // Slow floating
-      size: 10 + Math.random() * 24,
-      color: Math.random() > 0.6 ? '#FF6B6B' : '#D4A5A5',
-      opacity: 0.3 + Math.random() * 0.4
+      duration: 8 + Math.random() * 12, // Faster floating (8s to 20s)
+      size: 15 + Math.random() * 35, // Varied sizes (15px to 50px)
+      color: Math.random() > 0.5 ? '#FF6B6B' : '#D4A5A5',
+      opacity: 0.1 + Math.random() * 0.3 // Significantly reduced opacity (0.1 - 0.4) for better text contrast
     }));
   }, []);
 
@@ -187,32 +188,32 @@ const App: React.FC = () => {
 
             {/* Romantic Background Decoration for Intro */}
             <div className="absolute inset-0 z-0 flex items-center justify-center pointer-events-none">
-               <div className="absolute w-[500px] h-[500px] bg-romantic-primary/10 rounded-full blur-[100px] animate-pulse-slow"></div>
-               <Heart className="text-white/20 w-80 h-80 animate-pulse" fill="currentColor" strokeWidth={0} />
+               <div className="absolute w-[500px] h-[500px] bg-romantic-primary/20 rounded-full blur-[100px] animate-pulse-slow"></div>
+               <Heart className="text-white/40 w-80 h-80 animate-pulse" fill="currentColor" strokeWidth={0} />
             </div>
 
             <div className="z-10 w-full flex flex-col items-center">
               {/* Volume Hint */}
               <div className="mb-6 animate-bounce">
-                <div className="flex items-center gap-2 bg-white/60 backdrop-blur-md px-4 py-1.5 rounded-full border border-white/60 shadow-sm text-romantic-secondary">
-                  <Volume2 size={14} />
-                  <span className="text-[10px] font-sans tracking-widest uppercase font-bold">Sesi Açın</span>
+                <div className="flex items-center gap-2 bg-white/80 backdrop-blur-md px-4 py-1.5 rounded-full border border-white/60 shadow-md text-romantic-secondary">
+                  <Volume2 size={14} className="text-romantic-text" />
+                  <span className="text-[10px] font-sans tracking-widest uppercase font-bold text-romantic-text">Sesi Açın</span>
                 </div>
               </div>
 
               {/* Title Section */}
               <div className="mb-8">
-                <h1 className="font-script text-6xl md:text-7xl text-romantic-text mb-2 drop-shadow-sm transform -rotate-2">
+                <h1 className="font-script text-6xl md:text-7xl text-romantic-text mb-2 drop-shadow-lg transform -rotate-2">
                   Şeyma <span className="text-romantic-accent text-4xl">&</span> Akif
                 </h1>
-                <div className="flex items-center justify-center gap-3">
-                   <div className="h-[1px] w-8 bg-romantic-secondary/30"></div>
-                   <p className="font-serif text-lg md:text-xl text-romantic-secondary tracking-[0.2em] uppercase">En Güzel Günümüze</p>
-                   <div className="h-[1px] w-8 bg-romantic-secondary/30"></div>
+                <div className="flex items-center justify-center gap-3 mt-4">
+                   <div className="h-[2px] w-8 bg-romantic-text/40 rounded-full"></div>
+                   <p className="font-serif text-lg md:text-xl text-romantic-text/90 font-bold tracking-[0.2em] uppercase drop-shadow-sm">En Güzel Günümüze</p>
+                   <div className="h-[2px] w-8 bg-romantic-text/40 rounded-full"></div>
                 </div>
               </div>
 
-              {/* Countdown Section - Glassmorphism */}
+              {/* Countdown Section - High Contrast */}
               <div className="grid grid-cols-4 gap-3 mb-12 w-full max-w-sm">
                 {[
                   { label: 'Gün', value: timeLeft.days },
@@ -220,11 +221,11 @@ const App: React.FC = () => {
                   { label: 'Dakika', value: timeLeft.minutes },
                   { label: 'Saniye', value: timeLeft.seconds }
                 ].map((item, idx) => (
-                  <div key={idx} className="flex flex-col items-center p-3 bg-white/40 backdrop-blur-sm rounded-2xl border border-white/60 shadow-lg hover:bg-white/50 transition-colors">
-                    <span className="font-serif text-2xl md:text-3xl font-bold text-romantic-text tabular-nums leading-none mb-1">
+                  <div key={idx} className="flex flex-col items-center p-3 bg-white/80 backdrop-blur-md rounded-2xl border-2 border-white/60 shadow-xl hover:bg-white/90 transition-colors">
+                    <span className="font-serif text-2xl md:text-3xl font-black text-romantic-text tabular-nums leading-none mb-1 drop-shadow-sm">
                       {String(item.value).padStart(2, '0')}
                     </span>
-                    <span className="font-sans text-[9px] uppercase tracking-wider text-romantic-secondary/80 font-medium">
+                    <span className="font-sans text-[10px] uppercase tracking-wider text-romantic-text/80 font-bold">
                       {item.label}
                     </span>
                   </div>
@@ -244,20 +245,20 @@ const App: React.FC = () => {
                       }}
                       onClick={(e) => e.stopPropagation()}
                       placeholder="Sihirli sözcük..."
-                      className={`w-full bg-white/80 backdrop-blur-md border-2 ${error ? 'border-red-300 text-red-500 placeholder:text-red-300' : 'border-white text-romantic-text'} rounded-2xl px-6 py-4 text-center outline-none focus:border-romantic-primary focus:ring-4 focus:ring-romantic-primary/10 transition-all font-serif text-xl placeholder:text-romantic-text/30 shadow-xl placeholder:italic`}
+                      className={`w-full bg-white/90 backdrop-blur-md border-2 ${error ? 'border-red-300 text-red-600 placeholder:text-red-400' : 'border-white text-romantic-text'} rounded-2xl px-6 py-4 text-center outline-none focus:border-romantic-primary focus:ring-4 focus:ring-romantic-primary/20 transition-all font-serif text-xl placeholder:text-romantic-text/50 shadow-xl placeholder:italic font-semibold`}
                     />
-                    {!password && <Heart size={16} className="absolute right-5 top-1/2 -translate-y-1/2 text-romantic-primary/40 animate-pulse" fill="currentColor" />}
+                    {!password && <Heart size={16} className="absolute right-5 top-1/2 -translate-y-1/2 text-romantic-primary/60 animate-pulse" fill="currentColor" />}
                   </div>
-                  {error && <p className="text-red-400 text-xs mt-2 font-sans text-center">İpucu: Birbirimize hep söylediğimiz o iki kelime...</p>}
+                  {error && <p className="text-red-500 text-xs mt-2 font-sans font-bold text-center bg-white/60 py-1 px-2 rounded-lg inline-block w-full">İpucu: Birbirimize hep söylediğimiz o iki kelime...</p>}
                 </div>
 
                 <div className="flex justify-center">
                   <button 
                     onClick={handleStart}
-                    className="group relative bg-gradient-to-r from-romantic-primary to-romantic-accent text-white px-12 py-4 rounded-full shadow-xl font-serif tracking-widest uppercase text-sm flex items-center gap-3 overflow-hidden transform transition-all hover:scale-105 active:scale-95 hover:shadow-2xl hover:brightness-110"
+                    className="group relative bg-gradient-to-r from-romantic-primary to-romantic-accent text-white px-12 py-4 rounded-full shadow-xl font-serif tracking-widest uppercase text-sm flex items-center gap-3 overflow-hidden transform transition-all hover:scale-105 active:scale-95 hover:shadow-2xl hover:brightness-110 border-2 border-white/20"
                   >
                     <div className="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-300"></div>
-                    <span className="relative flex items-center gap-2">
+                    <span className="relative flex items-center gap-2 font-bold text-shadow-sm">
                       <Play size={16} className="fill-current" /> Hikayemiz Başlasın
                     </span>
                   </button>
