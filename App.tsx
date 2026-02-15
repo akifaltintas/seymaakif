@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect, useCallback } from 'react';
+import React, { useState, useRef, useEffect, useCallback, useMemo } from 'react';
 import { Play, Music, Heart, ChevronRight, ChevronLeft, Volume2, Lock, ArrowLeft, Phone, Video, MoreVertical, ChevronsDown, VolumeX } from 'lucide-react';
 import { SLIDES, YOUTUBE_VIDEO_ID } from './constants';
 import { SlideType } from './types';
@@ -50,6 +50,19 @@ const App: React.FC = () => {
     }, 1000);
 
     return () => clearInterval(interval);
+  }, []);
+
+  // Generate static random hearts for Intro to avoid re-render flicker
+  const introHearts = useMemo(() => {
+    return Array.from({ length: 30 }).map((_, i) => ({
+      id: i,
+      left: Math.random() * 100,
+      delay: Math.random() * 20, // Spread start times
+      duration: 10 + Math.random() * 15, // Slow floating
+      size: 10 + Math.random() * 24,
+      color: Math.random() > 0.6 ? '#FF6B6B' : '#D4A5A5',
+      opacity: 0.3 + Math.random() * 0.4
+    }));
   }, []);
 
   // Initialize YouTube API
@@ -152,61 +165,103 @@ const App: React.FC = () => {
     switch (currentSlide.type) {
       case SlideType.INTRO:
         return (
-          <div className="flex flex-col items-center justify-center h-full text-center px-6 animate-fade-in relative">
-            <div className="absolute top-[8%] animate-pulse-slow">
-              <div className="flex items-center gap-2 bg-white/40 backdrop-blur-sm px-4 py-2 rounded-full border border-white/60 shadow-sm">
-                <Volume2 size={16} className="text-romantic-text" />
-                <span className="text-xs font-sans tracking-widest uppercase text-romantic-text font-semibold">Sesi Açın</span>
-              </div>
+          <div className="flex flex-col items-center justify-center h-full text-center px-6 animate-fade-in relative overflow-hidden">
+            {/* Flying Hearts Background */}
+            <div className="absolute inset-0 overflow-hidden pointer-events-none z-0">
+               {introHearts.map((heart) => (
+                 <div
+                   key={heart.id}
+                   className="absolute -bottom-10"
+                   style={{
+                     left: `${heart.left}%`,
+                     animation: `floatUp ${heart.duration}s linear infinite`,
+                     animationDelay: `-${heart.delay}s`,
+                     color: heart.color,
+                     opacity: heart.opacity
+                   }}
+                 >
+                   <Heart size={heart.size} fill="currentColor" />
+                 </div>
+               ))}
             </div>
 
-            {/* Countdown Section */}
-            <div className="mb-10 w-full max-w-sm">
-              <h2 className="font-serif text-2xl md:text-3xl text-romantic-text mb-6 drop-shadow-sm">En Güzel Günümüze</h2>
-              <div className="grid grid-cols-4 gap-2 md:gap-4 px-2">
+            {/* Romantic Background Decoration for Intro */}
+            <div className="absolute inset-0 z-0 flex items-center justify-center pointer-events-none">
+               <div className="absolute w-[500px] h-[500px] bg-romantic-primary/10 rounded-full blur-[100px] animate-pulse-slow"></div>
+               <Heart className="text-white/20 w-80 h-80 animate-pulse" fill="currentColor" strokeWidth={0} />
+            </div>
+
+            <div className="z-10 w-full flex flex-col items-center">
+              {/* Volume Hint */}
+              <div className="mb-6 animate-bounce">
+                <div className="flex items-center gap-2 bg-white/60 backdrop-blur-md px-4 py-1.5 rounded-full border border-white/60 shadow-sm text-romantic-secondary">
+                  <Volume2 size={14} />
+                  <span className="text-[10px] font-sans tracking-widest uppercase font-bold">Sesi Açın</span>
+                </div>
+              </div>
+
+              {/* Title Section */}
+              <div className="mb-8">
+                <h1 className="font-script text-6xl md:text-7xl text-romantic-text mb-2 drop-shadow-sm transform -rotate-2">
+                  Şeyma <span className="text-romantic-accent text-4xl">&</span> Akif
+                </h1>
+                <div className="flex items-center justify-center gap-3">
+                   <div className="h-[1px] w-8 bg-romantic-secondary/30"></div>
+                   <p className="font-serif text-lg md:text-xl text-romantic-secondary tracking-[0.2em] uppercase">En Güzel Günümüze</p>
+                   <div className="h-[1px] w-8 bg-romantic-secondary/30"></div>
+                </div>
+              </div>
+
+              {/* Countdown Section - Glassmorphism */}
+              <div className="grid grid-cols-4 gap-3 mb-12 w-full max-w-sm">
                 {[
                   { label: 'Gün', value: timeLeft.days },
                   { label: 'Saat', value: timeLeft.hours },
-                  { label: 'Dak', value: timeLeft.minutes },
-                  { label: 'Sn', value: timeLeft.seconds }
+                  { label: 'Dakika', value: timeLeft.minutes },
+                  { label: 'Saniye', value: timeLeft.seconds }
                 ].map((item, idx) => (
-                  <div key={idx} className="bg-white/50 backdrop-blur-md rounded-2xl p-2 md:p-3 border border-white/40 shadow-sm flex flex-col items-center">
-                    <span className="font-sans text-xl md:text-2xl font-bold text-romantic-accent tabular-nums">
+                  <div key={idx} className="flex flex-col items-center p-3 bg-white/40 backdrop-blur-sm rounded-2xl border border-white/60 shadow-lg hover:bg-white/50 transition-colors">
+                    <span className="font-serif text-2xl md:text-3xl font-bold text-romantic-text tabular-nums leading-none mb-1">
                       {String(item.value).padStart(2, '0')}
                     </span>
-                    <span className="font-serif text-[10px] md:text-xs uppercase tracking-widest text-romantic-text/70">
+                    <span className="font-sans text-[9px] uppercase tracking-wider text-romantic-secondary/80 font-medium">
                       {item.label}
                     </span>
                   </div>
                 ))}
               </div>
-            </div>
-            
-            <div className="w-full max-w-xs space-y-6 z-20">
-              <div className={`transition-transform duration-100 ${error ? 'translate-x-[-10px] border-red-400' : ''} ${error ? 'animate-[pulse_0.5s_ease-in-out]' : ''}`}>
-                <div className="relative group">
-                  <input
-                    type="text"
-                    value={password}
-                    onChange={(e) => {
-                      setPassword(e.target.value);
-                      setError(false);
-                    }}
-                    onClick={(e) => e.stopPropagation()}
-                    placeholder="Sihirli sözcüğü giriniz..."
-                    className={`w-full bg-white/60 backdrop-blur-md border-2 ${error ? 'border-red-300 text-red-500' : 'border-white/50 text-romantic-text'} rounded-full px-6 py-4 text-center outline-none focus:border-romantic-primary focus:bg-white/80 transition-all font-serif text-lg placeholder:text-romantic-text/40 shadow-lg`}
-                  />
-                  {!password && <Lock size={16} className="absolute right-5 top-1/2 -translate-y-1/2 text-romantic-text/30" />}
+              
+              {/* Login Section */}
+              <div className="w-full max-w-xs space-y-5">
+                <div className={`transition-transform duration-200 ${error ? 'translate-x-[-10px]' : ''}`}>
+                  <div className="relative group">
+                    <input
+                      type="text"
+                      value={password}
+                      onChange={(e) => {
+                        setPassword(e.target.value);
+                        setError(false);
+                      }}
+                      onClick={(e) => e.stopPropagation()}
+                      placeholder="Sihirli sözcük..."
+                      className={`w-full bg-white/80 backdrop-blur-md border-2 ${error ? 'border-red-300 text-red-500 placeholder:text-red-300' : 'border-white text-romantic-text'} rounded-2xl px-6 py-4 text-center outline-none focus:border-romantic-primary focus:ring-4 focus:ring-romantic-primary/10 transition-all font-serif text-xl placeholder:text-romantic-text/30 shadow-xl placeholder:italic`}
+                    />
+                    {!password && <Heart size={16} className="absolute right-5 top-1/2 -translate-y-1/2 text-romantic-primary/40 animate-pulse" fill="currentColor" />}
+                  </div>
+                  {error && <p className="text-red-400 text-xs mt-2 font-sans text-center">İpucu: Birbirimize hep söylediğimiz o iki kelime...</p>}
                 </div>
-              </div>
-              <div className="flex justify-center">
-                <button 
-                  onClick={handleStart}
-                  className="bg-romantic-primary text-white px-10 py-4 rounded-full shadow-xl font-serif tracking-widest uppercase text-sm flex items-center gap-3 transform hover:scale-105 active:scale-95 transition-all duration-300 hover:bg-romantic-accent"
-                >
-                  <Play size={18} className="fill-current" />
-                  Başla
-                </button>
+
+                <div className="flex justify-center">
+                  <button 
+                    onClick={handleStart}
+                    className="group relative bg-gradient-to-r from-romantic-primary to-romantic-accent text-white px-12 py-4 rounded-full shadow-xl font-serif tracking-widest uppercase text-sm flex items-center gap-3 overflow-hidden transform transition-all hover:scale-105 active:scale-95 hover:shadow-2xl hover:brightness-110"
+                  >
+                    <div className="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-300"></div>
+                    <span className="relative flex items-center gap-2">
+                      <Play size={16} className="fill-current" /> Hikayemiz Başlasın
+                    </span>
+                  </button>
+                </div>
               </div>
             </div>
           </div>

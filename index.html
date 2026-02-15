@@ -34,11 +34,17 @@
               'float': 'float 6s ease-in-out infinite',
               'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
               'fade-in': 'fadeIn 1.5s ease-out forwards',
+              'float-up': 'floatUp 15s linear infinite',
             },
             keyframes: {
               float: {
                 '0%, 100%': { transform: 'translateY(0)' },
                 '50%': { transform: 'translateY(-20px)' },
+              },
+              floatUp: {
+                '0%': { transform: 'translateY(100vh) scale(0.5)', opacity: '0' },
+                '10%': { opacity: '0.8' },
+                '100%': { transform: 'translateY(-20vh) scale(1.2)', opacity: '0' },
               },
               fadeIn: {
                 '0%': { opacity: '0', transform: 'translateY(10px)' },
