@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect, useCallback, useMemo } from 'react';
-import { Play, Music, Heart, ChevronRight, ChevronLeft, Volume2, Lock, ArrowLeft, Phone, Video, MoreVertical, ChevronsDown, VolumeX } from 'lucide-react';
+import { Play, Music, Heart, ChevronRight, ChevronLeft, Volume2, ArrowLeft, Phone, Video, MoreVertical, ChevronsDown, VolumeX } from 'lucide-react';
 import { SLIDES, YOUTUBE_VIDEO_ID } from './constants';
 import { SlideType } from './types';
 import ProgressBar from './components/ProgressBar';
@@ -16,8 +16,10 @@ declare global {
 const App: React.FC = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isPlaying, setIsPlaying] = useState(false);
-  const [password, setPassword] = useState('');
-  const [error, setError] = useState(false);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [authPassword, setAuthPassword] = useState('');
+  const [authError, setAuthError] = useState(false);
+
   const playerRef = useRef<any>(null);
 
   // Countdown State
@@ -121,18 +123,11 @@ const App: React.FC = () => {
 
   const handleStart = (e: React.MouseEvent) => {
     e.stopPropagation();
-    const cleanInput = password.toLowerCase().replace(/\s/g, '');
-    if (cleanInput === 'seniseviyorum') {
-      if (playerRef.current && playerRef.current.playVideo) {
-        playerRef.current.playVideo();
-        setIsPlaying(true);
-      }
-      setCurrentIndex(1);
-      setError(false);
-    } else {
-      setError(true);
-      setTimeout(() => setError(false), 500);
+    if (playerRef.current && playerRef.current.playVideo) {
+      playerRef.current.playVideo();
+      setIsPlaying(true);
     }
+    setCurrentIndex(1);
   };
 
   const handleInteraction = useCallback((e: React.MouseEvent) => {
@@ -154,10 +149,20 @@ const App: React.FC = () => {
   const restart = (e: React.MouseEvent) => {
     e.stopPropagation();
     setCurrentIndex(0);
-    setPassword('');
     setIsPlaying(false);
     if (playerRef.current && playerRef.current.stopVideo) {
        playerRef.current.stopVideo();
+    }
+  };
+
+  const handleAuth = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (authPassword.toLowerCase().trim() === 'bebegim') {
+      setIsAuthenticated(true);
+      setAuthError(false);
+    } else {
+      setAuthError(true);
+      setTimeout(() => setAuthError(false), 1000);
     }
   };
 
@@ -232,37 +237,17 @@ const App: React.FC = () => {
                 ))}
               </div>
               
-              {/* Login Section */}
-              <div className="w-full max-w-xs space-y-5">
-                <div className={`transition-transform duration-200 ${error ? 'translate-x-[-10px]' : ''}`}>
-                  <div className="relative group">
-                    <input
-                      type="text"
-                      value={password}
-                      onChange={(e) => {
-                        setPassword(e.target.value);
-                        setError(false);
-                      }}
-                      onClick={(e) => e.stopPropagation()}
-                      placeholder="Sihirli sözcük..."
-                      className={`w-full bg-white/90 backdrop-blur-md border-2 ${error ? 'border-red-300 text-red-600 placeholder:text-red-400' : 'border-white text-romantic-text'} rounded-2xl px-6 py-4 text-center outline-none focus:border-romantic-primary focus:ring-4 focus:ring-romantic-primary/20 transition-all font-serif text-xl placeholder:text-romantic-text/50 shadow-xl placeholder:italic font-semibold`}
-                    />
-                    {!password && <Heart size={16} className="absolute right-5 top-1/2 -translate-y-1/2 text-romantic-primary/60 animate-pulse" fill="currentColor" />}
-                  </div>
-                  {error && <p className="text-red-500 text-xs mt-2 font-sans font-bold text-center bg-white/60 py-1 px-2 rounded-lg inline-block w-full">İpucu: Birbirimize hep söylediğimiz o iki kelime...</p>}
-                </div>
-
-                <div className="flex justify-center">
-                  <button 
-                    onClick={handleStart}
-                    className="group relative bg-gradient-to-r from-romantic-primary to-romantic-accent text-white px-12 py-4 rounded-full shadow-xl font-serif tracking-widest uppercase text-sm flex items-center gap-3 overflow-hidden transform transition-all hover:scale-105 active:scale-95 hover:shadow-2xl hover:brightness-110 border-2 border-white/20"
-                  >
-                    <div className="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-300"></div>
-                    <span className="relative flex items-center gap-2 font-bold text-shadow-sm">
-                      <Play size={16} className="fill-current" /> Hikayemiz Başlasın
-                    </span>
-                  </button>
-                </div>
+              {/* Start Button Section */}
+              <div className="flex justify-center mt-8">
+                <button 
+                  onClick={handleStart}
+                  className="group relative bg-gradient-to-r from-romantic-primary to-romantic-accent text-white px-12 py-4 rounded-full shadow-xl font-serif tracking-widest uppercase text-sm flex items-center gap-3 overflow-hidden transform transition-all hover:scale-105 active:scale-95 hover:shadow-2xl hover:brightness-110 border-2 border-white/20"
+                >
+                  <div className="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-300"></div>
+                  <span className="relative flex items-center gap-2 font-bold text-shadow-sm">
+                    <Play size={16} className="fill-current" /> Hikayemiz Başlasın
+                  </span>
+                </button>
               </div>
             </div>
           </div>
@@ -420,6 +405,36 @@ const App: React.FC = () => {
       default: return null;
     }
   };
+
+  if (!isAuthenticated) {
+    return (
+      <div className="flex flex-col items-center justify-center h-[100dvh] bg-white px-6">
+        <div className="text-center mb-8">
+          <p className="text-red-500 italic text-sm mb-1">Şunu mu demek istediniz:</p>
+          <a href="#" onClick={(e) => e.preventDefault()} className="text-blue-700 font-bold text-xl hover:underline">seymanurileakif.com</a>
+        </div>
+        <form onSubmit={handleAuth} className="w-full max-w-xs flex flex-col gap-4">
+          <input
+            type="password"
+            value={authPassword}
+            onChange={(e) => {
+              setAuthPassword(e.target.value);
+              setAuthError(false);
+            }}
+            placeholder="Şifre"
+            className={`w-full border-2 ${authError ? 'border-red-300' : 'border-gray-200'} rounded-xl px-4 py-3 text-center outline-none focus:border-gray-400 transition-all font-sans text-lg`}
+            autoFocus
+          />
+          <button
+            type="submit"
+            className="bg-gray-800 text-white py-3 rounded-xl font-sans font-medium hover:bg-gray-700 transition-colors"
+          >
+            Giriş
+          </button>
+        </form>
+      </div>
+    );
+  }
 
   return (
     <div onClick={handleInteraction} className="relative w-full h-[100dvh] bg-romantic-bg overflow-hidden cursor-pointer select-none">
