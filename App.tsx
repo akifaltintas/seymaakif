@@ -411,7 +411,7 @@ const App: React.FC = () => {
       <div className="flex flex-col items-center justify-center h-[100dvh] bg-white px-6">
         <div className="text-center mb-8">
           <p className="text-red-500 italic text-sm mb-1">Şunu mu demek istediniz:</p>
-          <a href="#" onClick={(e) => e.preventDefault()} className="text-blue-700 font-bold text-xl hover:underline">seymanurileakif.com</a>
+          <a href="https://seymanurileakif.com" className="text-blue-700 font-bold text-xl hover:underline">seymanurileakif.com</a>
         </div>
         <form onSubmit={handleAuth} className="w-full max-w-xs flex flex-col gap-4">
           <input
